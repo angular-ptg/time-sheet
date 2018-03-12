@@ -3,11 +3,13 @@ import { NgModule } from '@angular/core';
 
 
 import { AppComponent } from './app.component';
+import { ReportTimeComponent } from './report-time/report-time.component';
 
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    ReportTimeComponent
   ],
   imports: [
     BrowserModule
