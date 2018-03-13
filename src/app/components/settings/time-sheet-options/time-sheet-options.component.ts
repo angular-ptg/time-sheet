@@ -6,7 +6,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./time-sheet-options.component.css']
 })
 export class TimeSheetOptionsComponent implements OnInit {
-
+  
+  optionsClass: string = "optionsClass";
+  options: any = ["auto-populate-hours", "edit-2-weeks", "auto-submit"]
   constructor() { }
 
   ngOnInit() {

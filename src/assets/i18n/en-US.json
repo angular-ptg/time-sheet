@@ -1,0 +1,20 @@
+{
+    "title" : "Time Sheet",
+    "employee-holidays":"Employee Holidays",
+    "client-holidays":"Client Holidays",
+    "name-label": "Name",
+    "person-name": "John Doe",
+    "email-address-label": "Email Address",
+    "person-email-address": "jdoe@ecompany.com",
+    "client-label": "Client",
+    "client-name": "XYZ Software Inc",
+    "client-approver-label": "Client Approver",
+    "client-approver-name": "Jane Doe",
+    "client-email-label": "Client Email",
+    "client-email-text": "jdoe@xyzsoftware.com",
+    "auto-populate-hours": "Auto Populate Hours",
+    "edit-2-weeks": "Edit 2 weeks at once",
+    "auto-submit": "Auto Submit",
+    "time-sheet": "Timesheet",
+    "client-info": "Client Information"
+}
