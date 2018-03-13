@@ -1,0 +1,10 @@
+<div *ngFor="let empInfo of empHolidayInfo">
+    <ts-label  labelname="accural-rate" [labelstyles]="empInfoStyles">:</ts-label>
+    <ts-label [labelname]="empInfo.AccuralRate"></ts-label><br/>
+    <ts-label labelname="accured-hours" [labelstyles]="empInfoStyles">:</ts-label>
+    <ts-label [labelname]="empInfo.AccuredHours"></ts-label><br/>
+    <ts-label labelname="total-vacation" [labelstyles]="empInfoStyles">:</ts-label>
+    <ts-label [labelname]="empInfo.TotalVacation"></ts-label><br/>
+    <ts-label labelname="remaining-vaction"[labelstyles]="empInfoStyles">:</ts-label>
+    <ts-label [labelname]="empInfo.RemainingVaction"></ts-label><br/>
+</div>
