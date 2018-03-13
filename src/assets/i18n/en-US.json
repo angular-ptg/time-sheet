@@ -6,5 +6,9 @@
     "logOut"    : "Logout",
     "title" : "Time Sheet",
     "employee-holidays":"Employee Holidays",
-    "client-holidays":"Client Holidays"  
+    "client-holidays":"Client Holidays",
+    "accural-rate":"Accural Rate",
+    "accured-hours":"Accured Hours",
+     "total-vacation":"Total Vacation",
+     "remaining-vaction":"Remaining Vaction"
 }
