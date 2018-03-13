@@ -1,0 +1,9 @@
+<div class="container">
+  <fieldset class="scheduler-border">
+    <legend class="scheduler-border">{{ 'client-info' | translate}}</legend>
+      <!-- <ts-label [labelname]="labelname" [labelstyles]="labelstyles">Name</ts-label> -->
+      <div *ngFor="let info of clientInfo">
+          <ts-label [labelstyles]="textFormat" [labelname]="info.name"></ts-label>&nbsp;:&nbsp;<ts-label [labelname]="info.text"></ts-label>
+      </div>
+  </fieldset>
+</div>
