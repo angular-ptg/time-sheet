@@ -1,4 +1,9 @@
 {
+    "home" : "Home",
+    "reportTime": "Report Time",
+    "viewTime"  : "View Time",
+    "settings"  : "Settings",
+    "logOut"    : "Logout",
     "title" : "Time Sheet",
     "employee-holidays":"Employee Holidays",
     "client-holidays":"Client Holidays"  
