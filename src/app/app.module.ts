@@ -18,10 +18,16 @@ import { HolidayComponent } from './components/view-time/holidays/holidays.compo
 import { TableComponent } from './shared/table/table.component';
 import { EmployeeHolidayInfoComponent } from './components/view-time/employee-holiday-info/employee-holiday-info.component';
 import { ClientInfoService } from './components/settings/shared/client-info.service';
+import { ReactiveFormsModule } from '@angular/forms';
+import { LoginComponent } from './components/login/login.component';
+import { timeOffService } from './components/login/shared/timeOffService';
 
 const appRoutes: Routes =[
+  {path:'',component:LoginComponent},
   {path: 'dashBoard', component: CalendarComponent},
   {path: 'viewTime',  component: ViewTimeComponent},
+  {path: 'settings',  component: SettingsComponent},
+  {path: 'reportTime', component: CalendarComponent},
   {path: '**',  component: CalendarComponent}
 ];
 
@@ -39,11 +45,13 @@ export function TranslateStaticLoadFactory(http: Http){
     LabelComponent,
     HolidayComponent,
     TableComponent,
-    EmployeeHolidayInfoComponent
+    EmployeeHolidayInfoComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule, 
     HttpModule,
+    ReactiveFormsModule,
     BsDatepickerModule.forRoot(),
     HttpClientModule,
     TranslateModule.forRoot({
@@ -53,7 +61,7 @@ export function TranslateStaticLoadFactory(http: Http){
     }),
     RouterModule.forRoot(appRoutes)
   ],
-  providers: [ClientInfoService],
+  providers: [ClientInfoService, timeOffService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

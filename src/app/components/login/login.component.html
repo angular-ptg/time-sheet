@@ -1,0 +1,48 @@
+<div class="wrapper">
+  <div class="container col-md-4">
+    <div class="header">
+        <h3>{{'time-sheet-title' | translate}}</h3>
+    </div>
+    <div class="loginForm">
+      <h4>{{'login-small' | translate}}</h4>
+      <form class="form-horizontal" [formGroup]="loginForm">
+        <div class="form-group">
+          <label class="control-label col-sm-4" for="idType" id="idType">{{'id-type' | translate}}</label>
+          <div class="dropdown col-md-7">
+              <button class="btn btn-default dropdown-toggle idTypeBtn" name="idType" type="button" data-toggle="dropdown">{{this.loginLabel}}
+                <span class="caret pull-right"></span>
+              </button>
+                <ul class="dropdown-menu" #idType value="selectedList" name="selectedList">
+                <li *ngFor="let list of idTypeList" (click)="onSelectList(list)" [value]="list" name="selectedList">
+                  <a href="#">{{list}}</a>
+                </li>
+              </ul>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-sm-4" for="empId" id="empId">{{this.loginLabel}}:</label>
+          <div class="col-sm-7" [ngClass]="{'has-error':loginForm.controls['idType'].errors?.required  && loginForm.controls['idType'].dirty}">
+            <input type="empId" class="form-control" formControlName="idType" id="empId" placeholder="Enter your {{loginLabel}}" [(ngModel)]="data.empId" name="empId">
+            <div class="validationMessage" *ngIf="loginForm.controls['idType'].errors?.required  && loginForm.controls['idType'].dirty">
+              <em>{{ 'enter-id' | translate }}</em>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-sm-4" id="pwd" for="pwd" >Password:</label>
+          <div class="col-sm-7" [ngClass]="{'has-error':loginForm.controls['password'].errors?.required  && loginForm.controls['password'].dirty}">
+            <input type="password" class="form-control" formControlName="password" id="pwd" placeholder="Enter password" [(ngModel)]="data.pwd" name="pwd">
+            <div class="validationMessage" *ngIf="loginForm.controls['password'].errors?.required  && loginForm.controls['password'].dirty">
+              <em>{{'enter-password' | translate}}</em>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-offset-4 col-sm-7" [ngClass]="{'has-error':message}" *ngIf="message">
+          <em class="validationMessage">{{message}}</em>
+        </div>
+        <button type="submit" class="submitBtn" [disabled]="!loginForm.valid || message" (click)="loginUser()">{{ 'login-caps' | translate }}</button>
+        <a class="forgotPassword">{{ 'forgot-password' | translate }}</a>
+      </form>
+    </div>
+  </div>
+</div>
