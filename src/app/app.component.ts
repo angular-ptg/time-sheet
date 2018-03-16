@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import {TranslateService} from 'ng2-translate';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-root',
@@ -7,7 +9,8 @@ import {TranslateService} from 'ng2-translate';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  constructor(public translate: TranslateService) { 
+  showNavMenu:boolean= false;
+  constructor(public translate: TranslateService, private _route:Router) { 
     // this language will be used as a fallback when a translation isn't found in the current language
     translate.setDefaultLang(navigator.language);
 
