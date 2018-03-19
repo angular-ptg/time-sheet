@@ -25,22 +25,10 @@ export class EmployeeHolidayInfoComponent implements OnInit {
     this._employeeHolidayInfoService.getEmpHolidayInfo()
                                     .subscribe(data =>
                                       {
-                                        this.empHolidayInfo = data,
-                                        console.log("emp:"+this.empHolidayInfo);
+                                        this.empHolidayInfo = data
                                       });
-    // this._employeeHolidayInfoService.getEmpHolidayInfoMenu()
-    //                                 .subscribe(data=>
-    //                                   {
-    //                                     this.employeeHolidayMenuInfo = data,
-    //                                     console.log("emp:"+this.employeeHolidayMenuInfo);
-    //                                   });
-  
-    
     } 
-  ngOnInit() {  
-  //   console.log("emp holiday:"+this.empHolidayInfo);    
-  // this.empData = _.pluck(this.empHolidayInfo,'RemainingVaction');
-  // console.log("emp data:"+this.empData);
+  ngOnInit() { 
   }
 
 }

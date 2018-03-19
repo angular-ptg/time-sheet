@@ -18,9 +18,10 @@
       "tsconfig": "tsconfig.app.json",
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "app",
-      "styles": [
-        "styles.css", "./assets/bootstrap/css/bootstrap.min.css", "../node_modules/ngx-bootstrap/datepicker/bs-datepicker.css"
-        "./assets/bootstrap/css/bootstrap.min.css"
+      "styles": ["./assets/bootstrap/css/bootstrap.min.css", 
+   "../node_modules/ag-grid/dist/styles/ag-grid.css",
+        "../node_modules/ag-grid/dist/styles/theme-fresh.css","../node_modules/ngx-bootstrap/datepicker/bs-datepicker.css",
+        "styles.scss"
       ],
       "scripts": ["./assets/jquery/jquery-3.2.1.min.js", "./assets/bootstrap/js/bootstrap.min.js"],
       "environmentSource": "environments/environment.ts",

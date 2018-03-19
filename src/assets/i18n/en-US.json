@@ -1,4 +1,15 @@
 {
+    
+    "time-sheet-title": "Time Sheet Application",
+    "incredible-results": "Incredible results",
+    "better-hr": "happen with better HR",
+    "login-small": "Login",
+    "login-caps": "LOGIN",
+    "id-type": "ID Type:",
+    "enter-id": "Please enter ID.",
+    "enter-password": "Please enter password.",
+    "forgot-password": "Forgot your password or ID?",
+    "invalid-credentials":"ID or password is invalid",
     "home" : "Home",
     "reportTime": "Report Time",
     "viewTime"  : "View Time",
