@@ -25,6 +25,8 @@ import { LoginComponent } from './components/login/login.component';
 import { timeOffService } from './components/login/shared/timeOffService';
 import { ReportTimeComponent } from './components/report-time/report-time.component';
 
+import {AgGridModule} from "ag-grid-angular/main";
+
 const appRoutes: Routes =[
   {path:'',component:LoginComponent},
   {path: 'home', component: AppComponent},
@@ -61,6 +63,7 @@ export function TranslateStaticLoadFactory(http: Http){
     CalendarModule,
     BsDatepickerModule.forRoot(),
     HttpClientModule,
+    AgGridModule.withComponents([]),
     TranslateModule.forRoot({
       provide: TranslateLoader,
       useFactory: TranslateStaticLoadFactory,
