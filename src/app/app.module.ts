@@ -1,7 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
-import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { Routes, RouterModule } from '@angular/router';
 
 import { HttpModule, Http } from '@angular/http';
@@ -25,7 +24,7 @@ import { LoginComponent } from './components/login/login.component';
 import { timeOffService } from './components/login/shared/timeOffService';
 import { ReportTimeComponent } from './components/report-time/report-time.component';
 
-import {AgGridModule} from "ag-grid-angular/main";
+import { AgGridModule } from "ag-grid-angular/main";
 import { DateService } from './shared/services/date.service';
 
 const appRoutes: Routes =[
@@ -62,7 +61,6 @@ export function TranslateStaticLoadFactory(http: Http){
     ReactiveFormsModule,
     BrowserAnimationsModule,
     CalendarModule,
-    BsDatepickerModule.forRoot(),
     HttpClientModule,
     AgGridModule.withComponents([]),
     TranslateModule.forRoot({
