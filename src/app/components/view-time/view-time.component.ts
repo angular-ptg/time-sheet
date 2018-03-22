@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import {HolidayListService} from './holidays/shared/holiday-list.service'
 import { AppComponent } from '../../app.component';
+import { DateService } from '../../shared/services/date.service';
 
 @Component({
   selector: 'ts-view-time',
@@ -13,7 +14,7 @@ export class ViewTimeComponent implements OnInit {
 
   public holidayInfo:any;
   public holidayList:any;
-  constructor(private _holidayListService:HolidayListService,private _appComponent:AppComponent) {
+  constructor(private _holidayListService:HolidayListService,private _appComponent:AppComponent, private _dateService: DateService) {
     this._holidayListService.getHolidayList()
                             .subscribe(data=>
                               {
@@ -30,7 +31,7 @@ export class ViewTimeComponent implements OnInit {
    }
 
   ngOnInit() {
-    this._appComponent.showNavMenu = true;
+    this._dateService.showNavMenu = true;
   }
 
 }

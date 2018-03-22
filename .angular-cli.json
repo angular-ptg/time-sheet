@@ -24,7 +24,10 @@
         "../node_modules/ag-grid/dist/styles/theme-fresh.css",
         "styles.scss"
       ],
-      "scripts": ["./assets/jquery/jquery-3.2.1.min.js", "./assets/bootstrap/js/bootstrap.min.js"],
+      "scripts": [
+        "./assets/jquery/jquery-3.2.1.min.js",
+        "./assets/bootstrap/js/bootstrap.min.js"
+      ],
       "environmentSource": "environments/environment.ts",
       "environments": {
         "dev": "environments/environment.ts",

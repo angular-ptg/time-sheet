@@ -1,5 +1,5 @@
 
-<nav *ngIf="showNavMenu" class="navbar navbar-default">
+<nav *ngIf="dateService.showNavMenu" class="navbar navbar-default">
     <div class="container-fluid">
       <ul class="nav navbar-nav">
         <li  [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}"><a routerLink="dashboard">{{"home" | translate}}</a></li>

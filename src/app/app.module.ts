@@ -24,21 +24,22 @@ import { LoginComponent } from './components/login/login.component';
 import { timeOffService } from './components/login/shared/timeOffService';
 import { ReportTimeComponent } from './components/report-time/report-time.component';
 
-import { AgGridModule } from "ag-grid-angular/main";
+import { AgGridModule } from 'ag-grid-angular/main';
 import { DateService } from './shared/services/date.service';
+import { HomeComponent } from './components/home/home.component';
 
-const appRoutes: Routes =[
-  {path:'',component:LoginComponent},
+const appRoutes: Routes = [
+  {path: '', component: LoginComponent},
   {path: 'home', component: AppComponent},
   {path: 'viewTime',  component: ViewTimeComponent},
   {path: 'settings',  component: SettingsComponent},
-  {path: 'reportTime', component: ReportTimeComponent},
-  {path: 'dashboard',component:CalendarComponent},
+  {path: 'reportTime/:date', component: ReportTimeComponent},
+  {path: 'dashboard', component: HomeComponent},
   {path: '**',  component: CalendarComponent}
 ];
 
-export function TranslateStaticLoadFactory(http: Http){
-  return new TranslateStaticLoader(http,'./assets/i18n','.json');
+export function TranslateStaticLoadFactory(http: Http) {
+  return new TranslateStaticLoader(http, './assets/i18n', '.json');
 }
 @NgModule({
   declarations: [
@@ -53,10 +54,11 @@ export function TranslateStaticLoadFactory(http: Http){
     TableComponent,
     EmployeeHolidayInfoComponent,
     LoginComponent,
-    ReportTimeComponent
+    ReportTimeComponent,
+    HomeComponent
   ],
   imports: [
-    BrowserModule, 
+    BrowserModule,
     HttpModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AppComponent } from '../../app.component';
 import { GridOptions } from 'ag-grid/main';
 import { DateService } from '../../shared/services/date.service';
+import { ActivatedRoute } from '@angular/router';
 
 
 @Component({
@@ -24,7 +25,7 @@ export class ReportTimeComponent implements OnInit {
   startDate: Date;
   endDate: Date;
   dates: string[]=[];
-  constructor(private _appComponent: AppComponent, private _dateService: DateService) {
+  constructor(private _appComponent: AppComponent, private _dateService: DateService, private _activatedRoute: ActivatedRoute) {
     this.gridOptions = <GridOptions>{};
     this.gridOptions.getRowStyle = function (params) {
       if (params.node.rowIndex % 2 === 1) {
@@ -37,8 +38,9 @@ export class ReportTimeComponent implements OnInit {
 
 
   ngOnInit() {
-    this._appComponent.showNavMenu = true;
-    this.startDate = new Date(this._dateService.date);
+    this._dateService.showNavMenu = true;
+    console.log(this._activatedRoute.snapshot.params);
+    this.startDate = new Date(this._activatedRoute.snapshot.params.date);
     this.startDate.setDate(this.startDate.getDate() - this.startDate.getDay() + 1);
     this.endDate = new Date(this.startDate);
     for(var i = 0; i<=6; i++) {

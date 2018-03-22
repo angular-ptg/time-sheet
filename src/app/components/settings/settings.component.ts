@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AppComponent } from '../../app.component';
+import { DateService } from '../../shared/services/date.service';
 
 @Component({
   selector: 'ts-settings',
@@ -8,10 +9,10 @@ import { AppComponent } from '../../app.component';
 })
 export class SettingsComponent implements OnInit {
 
-  constructor(private _appComponent:AppComponent) { }
+  constructor(private _appComponent: AppComponent, private _dateService: DateService) { }
 
   ngOnInit() {
-    this._appComponent.showNavMenu = true;
+    this._dateService.showNavMenu = true;
   }
 
 }

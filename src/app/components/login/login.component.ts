@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { timeOffService } from './shared/timeOffService';
 import { AppComponent } from '../../app.component';
+import { DateService } from '../../shared/services/date.service';
 
 @Component({
   selector: 'app-login',
@@ -13,25 +14,31 @@ import { AppComponent } from '../../app.component';
 
 export class LoginComponent implements OnInit {
 
-  loginLabel: any = ["User ID"];
+  loginLabel: any = ['User ID'];
   message: string;
   data: any = [];
   getEmpInfo: any;
   loginForm: FormGroup;
 
-  constructor(private loginService: timeOffService, private router: Router, private _fb: FormBuilder, private _apComponent:AppComponent) {
+  constructor(private loginService: timeOffService,
+              private router: Router,
+              private _fb: FormBuilder,
+              private _apComponent: AppComponent, 
+              private _dateService: DateService) {
     this.loginForm = this._fb.group({
       idType: ['', [Validators.required]],
       password: ['', [Validators.required]]
     });
-    this._apComponent.showNavMenu = false;
+    this._dateService.showNavMenu = false;
   }
 
-  idTypeList: any = ["Employee ID", "Soc. Sec. # (US only)", "Custom ID"];
+  idTypeList: any = ['Employee ID', 'Soc. Sec. # (US only)', 'Custom ID'];
 
   loginUser() {
-    this.getEmpInfo.map(ele=>{
-      (this.loginForm.controls['idType'].value.toLowerCase() == ele.emp && this.loginForm.controls['password'].value.toLowerCase() == ele.pwd) ? (this.router.navigate(['/dashboard']),this._apComponent.showNavMenu = true) : this.message = "ID or password is invalid";
+    this.getEmpInfo.map(ele => {
+      (this.loginForm.controls['idType'].value.toLowerCase() === ele.emp &&
+      this.loginForm.controls['password'].value.toLowerCase() === ele.pwd) ?
+      (this.router.navigate(['/dashboard']), this._dateService.showNavMenu = true) : this.message = 'ID or password is invalid';
    });
   }
 
@@ -42,17 +49,17 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     this.loginService.getEmpData().subscribe(data => {
       this.getEmpInfo = data;
-    })
-    this.message = "";
+    });
+    this.message = '';
     this.loginForm.controls['idType'].valueChanges.subscribe(id => {
-      if(id) {
-        this.message = "";
+      if (id) {
+        this.message = '';
       }
-    })
+    });
     this.loginForm.controls['password'].valueChanges.subscribe(pwd => {
-      if(pwd) {
-        this.message = "";
+      if (pwd) {
+        this.message = '';
       }
-    })
+    });
   }
 }
