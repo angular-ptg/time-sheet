@@ -86,6 +86,7 @@ import { Component, AfterViewInit, ElementRef } from '@angular/core';
 import * as jQuery from 'jquery';
 import 'fullcalendar';
 import { DateService } from '../../shared/services/date.service';
+import { Router } from '@angular/router';
 
 @Component({
     template: '<ng-content></ng-content>',
@@ -95,16 +96,16 @@ export class CalendarComponent implements AfterViewInit {
     calendarElement: any;
     clickedDate: any;
     constructor(private elementRef: ElementRef,
-                private _dateService: DateService) { }
+                private _dateService: DateService,
+                private _router: Router) { }
 
     ngAfterViewInit() {
         this._dateService.showNavMenu = true;
         this.calendarElement = jQuery(this.elementRef.nativeElement);
         this.calendarElement.fullCalendar({
             events: '/assets/json/events.json',
-                      dayClick: function(date) {         
-                        // window.history.pushState({urlPath:'http://localhost:4200/reportTime/'+ date.format()}, "" , 'http://localhost:4200/reportTime/'+ date.format());
-                       window.open('http://localhost:4200/reportTime/'+ date.format(), "_self");
+                      dayClick: (date) => {         
+                        this._router.navigateByUrl('/reportTime/' + date.format());
                     }
         });
       }
