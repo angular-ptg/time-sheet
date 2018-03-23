@@ -27,6 +27,7 @@ import { ReportTimeComponent } from './components/report-time/report-time.compon
 import { AgGridModule } from 'ag-grid-angular/main';
 import { DateService } from './shared/services/date.service';
 import { HomeComponent } from './components/home/home.component';
+import { ReportDetailsComponent } from './components/report-details/report-details.component';
 
 const appRoutes: Routes = [
   {path: '', component: LoginComponent},
@@ -55,7 +56,8 @@ export function TranslateStaticLoadFactory(http: Http) {
     EmployeeHolidayInfoComponent,
     LoginComponent,
     ReportTimeComponent,
-    HomeComponent
+    HomeComponent,
+    ReportDetailsComponent
   ],
   imports: [
     BrowserModule,
