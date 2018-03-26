@@ -1,0 +1,22 @@
+<div class="container wrapper">
+    <h2>Employee Name: {{empInfo.name}}</h2>
+    <table class="reportTable table table-responsive table-striped table-hover">
+      <thead>
+        <th>Week</th>
+        <th>Billable hours</th>
+        <th>Non Billable Hours</th>
+        <th>Actions</th>
+      </thead>
+      <tbody>
+        <tr *ngFor="let weekInfo of empInfo.hoursDetails; let i=index" [ngClass]="{'info': (i%2 == 0)}">
+            <td>{{weekInfo.week}}</td>
+            <td>{{weekInfo.billableHours}}</td>
+            <td>{{weekInfo.nonBillableHours}}</td>
+            <td>
+              <button class="btn btn-primary">Approve</button>
+              <button class="btn btn-warning">Reject</button>
+            </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>

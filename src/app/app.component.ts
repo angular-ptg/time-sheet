@@ -19,5 +19,7 @@ export class AppComponent {
    translate.use(navigator.language);
    this.dateService.showNavMenu = false;
   }
-
+  logout() {
+    this.dateService.managerNavMenu = false;
+  }
 }

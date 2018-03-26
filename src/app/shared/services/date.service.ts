@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 export class DateService {
   date: Date;
   showNavMenu: boolean;
+  managerNavMenu: boolean;
   constructor() { }
 
 }

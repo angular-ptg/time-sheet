@@ -28,6 +28,8 @@ import { AgGridModule } from 'ag-grid-angular/main';
 import { DateService } from './shared/services/date.service';
 import { HomeComponent } from './components/home/home.component';
 import { ReportDetailsComponent } from './components/report-details/report-details.component';
+import { ReportDetailsService } from './components/report-details/shared/report-details.service';
+import { EmployeeDetailsComponent } from './components/report-details/employee-details/employee-details.component';
 
 const appRoutes: Routes = [
   {path: '', component: LoginComponent},
@@ -36,12 +38,15 @@ const appRoutes: Routes = [
   {path: 'settings',  component: SettingsComponent},
   {path: 'reportTime/:date', component: ReportTimeComponent},
   {path: 'dashboard', component: HomeComponent},
+  {path: 'reportDetails', component: ReportDetailsComponent},
+  {path: 'reportDetails/:empId', component: EmployeeDetailsComponent},
   {path: '**',  component: CalendarComponent}
 ];
 
 export function TranslateStaticLoadFactory(http: Http) {
   return new TranslateStaticLoader(http, './assets/i18n', '.json');
 }
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -57,7 +62,8 @@ export function TranslateStaticLoadFactory(http: Http) {
     LoginComponent,
     ReportTimeComponent,
     HomeComponent,
-    ReportDetailsComponent
+    ReportDetailsComponent,
+    EmployeeDetailsComponent
   ],
   imports: [
     BrowserModule,
@@ -74,7 +80,7 @@ export function TranslateStaticLoadFactory(http: Http) {
     }),
     RouterModule.forRoot(appRoutes)
   ],
-  providers: [ClientInfoService, timeOffService, DateService],
+  providers: [ClientInfoService, timeOffService, DateService, ReportDetailsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

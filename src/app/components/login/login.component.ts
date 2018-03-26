@@ -38,7 +38,8 @@ export class LoginComponent implements OnInit {
     this.getEmpInfo.map(ele => {
       (this.loginForm.controls['idType'].value.toLowerCase() === ele.emp &&
       this.loginForm.controls['password'].value.toLowerCase() === ele.pwd) ?
-      (this.router.navigate(['/dashboard']), this._dateService.showNavMenu = true) : this.message = 'ID or password is invalid';
+      ((ele.emp === "manager") ? (this.router.navigate(['/reportDetails']), this._dateService.showNavMenu = true, this._dateService.managerNavMenu = true) : (this.router.navigate(['/dashboard']), this._dateService.showNavMenu = true)) : this.message = 'ID or password is invalid';
+      
    });
   }
 
