@@ -1,0 +1,9 @@
+<div class="container">
+  <div class="panel panel-primary">
+    <div class="panel-heading">{{ 'client-info' | translate}}</div>
+      <!-- <ts-label [labelname]="labelname" [labelstyles]="labelstyles">Name</ts-label> -->
+      <div class="panel-body" *ngFor="let info of clientInfo">
+          <ts-label [labelstyles]="textFormat" [labelname]="info.name"></ts-label>&nbsp;:&nbsp;<ts-label [labelname]="info.text"></ts-label>
+      </div>
+    </div>
+</div>
