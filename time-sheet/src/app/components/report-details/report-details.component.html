@@ -1,0 +1,17 @@
+<div class="container wrapper">
+  <h2>Employee Report</h2>
+  <table class="reportTable table table-responsive table-striped table-hover">
+    <thead>
+      <th>Employee Name</th>
+      <th>Employee Role</th>
+      <th>Billable hours (current week)</th>
+    </thead>
+    <tbody>
+      <tr *ngFor="let emp of empData">
+          <td (click)="empClicked(emp)" *ngIf="emp.name"><a>{{emp.name}}</a></td>
+          <td *ngIf="emp.name">{{emp.role}}</td>
+          <td *ngIf="emp.name">{{emp.hoursDetails[0].billableHours}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

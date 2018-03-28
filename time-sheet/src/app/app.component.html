@@ -1,0 +1,16 @@
+
+<nav *ngIf="dateService.showNavMenu" class="navbar navbar-default">
+    <div class="container-fluid">
+      <ul class="nav navbar-nav">
+        <li *ngIf="!dateService.managerNavMenu" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}"><a routerLink="dashboard">{{"home" | translate}}</a></li>
+        <!-- <li *ngIf="!dateService.managerNavMenu" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}"><a routerLink="reportTime">{{"reportTime" | translate}}</a></li> -->
+        <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}"><a routerLink="viewTime">{{"viewTime" | translate }}</a></li>
+        <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}"><a routerLink="settings">{{"settings" | translate}}</a></li>
+        <li *ngIf="dateService.managerNavMenu"  [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}"><a routerLink="reportDetails">{{"reportDetails" | translate}}</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+        <li><a routerLink="" (click)="logout()" class="logOut">{{"logOut" | translate}}</a></li>
+      </ul>
+    </div>
+</nav>
+<router-outlet></router-outlet>
