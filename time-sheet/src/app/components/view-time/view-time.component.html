@@ -1,0 +1,11 @@
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-3" *ngFor="let obj of holidayInfo">       
+            <ts-holidays [header]="obj.Name" [holidayList]="holidayList" *ngIf="obj.Name"></ts-holidays>
+        </div>
+    </div>
+    <div class="emp-holiday-info">
+        <ts-employee-holiday-info></ts-employee-holiday-info>
+    </div>   
+</div>

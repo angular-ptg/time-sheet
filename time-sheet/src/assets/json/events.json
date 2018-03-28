@@ -1,0 +1,26 @@
+[
+   {
+      "title": "event1",
+      "start": "2018-03-01"
+   },
+   {
+      "title": "event2",
+      "start": "2018-03-04",
+      "color": "red"
+   },
+   {
+      "title": "event3",
+      "start": "2018-03-09",
+      "color": "blue"
+   },
+   {
+      "title": "event4",
+      "start": "2018-03-09",
+      "color": "green"
+   },
+   {
+      "title": "event5",
+      "start": "2018-03-19",
+      "color": "yellow"
+   }
+]
