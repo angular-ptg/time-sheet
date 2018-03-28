@@ -1,5 +1,4 @@
 {
-    
     "time-sheet-title": "Time Sheet Application",
     "incredible-results": "Incredible results",
     "better-hr": "happen with better HR",
@@ -36,5 +35,6 @@
     "edit-2-weeks": "Edit 2 weeks at once",
     "auto-submit": "Auto Submit",
     "time-sheet": "Timesheet",
-    "client-info": "Client Information"
+    "client-info": "Client Information",
+    "reportDetails": "Report Details"
 }

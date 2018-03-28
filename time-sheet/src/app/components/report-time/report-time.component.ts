@@ -25,8 +25,9 @@ export class ReportTimeComponent implements OnInit {
   startDate: Date;
   endDate: Date;
   dates: string[]=[];
+ 
   constructor(private _appComponent: AppComponent, private _dateService: DateService, private _activatedRoute: ActivatedRoute) {
-    this.gridOptions = <GridOptions>{};
+      this.gridOptions = <GridOptions>{};
     this.gridOptions.getRowStyle = function (params) {
       if (params.node.rowIndex % 2 === 1) {
         return { background: '#cee4ea', 'text-align': 'center', height: '55px' }
@@ -38,8 +39,11 @@ export class ReportTimeComponent implements OnInit {
 
 
   ngOnInit() {
+    // this._dateService.getReportTime().subscribe(data=>{
+    //   this.reportData = data[0];
+    //   console.log(this.reportData);
+    // })
     this._dateService.showNavMenu = true;
-    console.log(this._activatedRoute.snapshot.params);
     this.startDate = new Date(this._activatedRoute.snapshot.params.date);
     this.startDate.setDate(this.startDate.getDate() - this.startDate.getDay() + 1);
     this.endDate = new Date(this.startDate);
@@ -53,7 +57,7 @@ export class ReportTimeComponent implements OnInit {
     this.columnDefs = [
       {
         headerName: "TYPE",
-        field: "type",
+        field: "repType",
         width: 100
       },
       {
@@ -98,31 +102,11 @@ export class ReportTimeComponent implements OnInit {
         editable: true,
         width: 100
       },
-
     ];
 
-    this.rowData = [
-      {
-        type: "Billable",
-        monday: 10,
-        tuesday: 10,
-        wednesday: 10,
-        thursday: 0,
-        friday: 10,
-        saturday: 0,
-        sunday: 0
-      },
-      {
-        type: "Non Billable",
-        monday: 0,
-        tuesday: 0,
-        wednesday: 0,
-        thursday: 10,
-        friday: 0,
-        saturday: 0,
-        sunday: 0
-      },
-    ]
+    this._dateService.getReportTime().subscribe(data=>{
+      this.rowData = Object.values(data[0]);
+    });;
   }
   onGridReady(params) {
     params.api.sizeColumnsToFit();
@@ -130,13 +114,19 @@ export class ReportTimeComponent implements OnInit {
     this.gridApi = params.api;
     this.gridColumnApi = params.columnApi;
 
-
     params.api.setRowData(this.rowData);
   }
 
   selectAllRows() {
     this.gridOptions.api.selectAll();
   }
+  submitData(timeData){
+    this._dateService.postReportTime(timeData).subscribe(data => {
+      console.log(data);
+    })   
+
+  }
+  
 }
 
 

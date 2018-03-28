@@ -18,14 +18,17 @@ export class ViewTimeComponent implements OnInit {
     this._holidayListService.getHolidayList()
                             .subscribe(data=>
                               {
-                                this.holidayList =data,
+                                this.holidayList =Object.values(data[0]),
+                                console.log(this.holidayList);
                                 error=>console.log(error)
                               });
     this._holidayListService.getHolidayInfo()
                             .subscribe(data=>
                               {
-                                this.holidayInfo=data,
+                                this.holidayInfo=Object.values(data[0]),
+                               // this.holidayInfo = this.holidayInfo.Array.slice(2, 3);
                                 error=>console.log(error)
+                                console.log(this.holidayInfo);
                               });
 
    }

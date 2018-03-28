@@ -5,7 +5,7 @@
   </div>
   <div class="holiday-card-body panel-body">
     <br/>
-      <ts-table [holidayList]="holidayList"></ts-table>
+      <ts-table [holidayList]="holidayList" *ngIf="!Date"></ts-table>
       <ng-content></ng-content>
   </div>
 </div>

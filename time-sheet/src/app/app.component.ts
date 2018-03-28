@@ -13,11 +13,13 @@ export class AppComponent {
 
   constructor(public translate: TranslateService, private _route: Router, public dateService: DateService) {
     // this language will be used as a fallback when a translation isn't found in the current language
-    translate.setDefaultLang('en-US');
+    translate.setDefaultLang(navigator.language);
 
     // the lang to use, if the lang isn't available, it will use the current loader to get them
-   translate.use('en-US');
+   translate.use(navigator.language);
    this.dateService.showNavMenu = false;
   }
-
+  logout() {
+    this.dateService.managerNavMenu = false;
+  }
 }

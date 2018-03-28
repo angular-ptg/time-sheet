@@ -7,7 +7,7 @@ export class ClientInfoService {
   constructor(private _http:HttpClient) { }
 
   getClientInfo() {
-    return this._http.get('../../../../assets/json/clientInfo.json')
+    return this._http.get('/clientInfo/clientInfo')
   }
 
 }

@@ -38,7 +38,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/app.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "\r\n<nav *ngIf=\"dateService.showNavMenu\" class=\"navbar navbar-default\">\r\n    <div class=\"container-fluid\">\r\n      <ul class=\"nav navbar-nav\">\r\n        <li  [routerLinkActive]=\"['active']\" [routerLinkActiveOptions]=\"{exact:true}\"><a routerLink=\"dashboard\">{{\"home\" | translate}}</a></li>\r\n        <li [routerLinkActive]=\"['active']\" [routerLinkActiveOptions]=\"{exact:true}\"><a routerLink=\"reportTime\">{{\"reportTime\" | translate}}</a></li>\r\n        <li [routerLinkActive]=\"['active']\" [routerLinkActiveOptions]=\"{exact:true}\"><a routerLink=\"viewTime\">{{\"viewTime\" | translate }}</a></li>\r\n        <li [routerLinkActive]=\"['active']\" [routerLinkActiveOptions]=\"{exact:true}\"><a routerLink=\"settings\">{{\"settings\" | translate}}</a></li>\r\n        </ul>\r\n        <ul class=\"nav navbar-nav navbar-right\">\r\n        <li><a routerLink=\"\" class=\"logOut\">{{\"logOut\" | translate}}</a></li>\r\n      </ul>\r\n    </div>\r\n</nav>\r\n<router-outlet></router-outlet>"
+module.exports = "\r\n<nav *ngIf=\"dateService.showNavMenu\" class=\"navbar navbar-default\">\r\n    <div class=\"container-fluid\">\r\n      <ul class=\"nav navbar-nav\">\r\n        <li *ngIf=\"!dateService.managerNavMenu\" [routerLinkActive]=\"['active']\" [routerLinkActiveOptions]=\"{exact:true}\"><a routerLink=\"dashboard\">{{\"home\" | translate}}</a></li>\r\n        <!-- <li *ngIf=\"!dateService.managerNavMenu\" [routerLinkActive]=\"['active']\" [routerLinkActiveOptions]=\"{exact:true}\"><a routerLink=\"reportTime\">{{\"reportTime\" | translate}}</a></li> -->\r\n        <li [routerLinkActive]=\"['active']\" [routerLinkActiveOptions]=\"{exact:true}\"><a routerLink=\"viewTime\">{{\"viewTime\" | translate }}</a></li>\r\n        <li [routerLinkActive]=\"['active']\" [routerLinkActiveOptions]=\"{exact:true}\"><a routerLink=\"settings\">{{\"settings\" | translate}}</a></li>\r\n        <li *ngIf=\"dateService.managerNavMenu\"  [routerLinkActive]=\"['active']\" [routerLinkActiveOptions]=\"{exact:true}\"><a routerLink=\"reportDetails\">{{\"reportDetails\" | translate}}</a></li>\r\n        </ul>\r\n        <ul class=\"nav navbar-nav navbar-right\">\r\n        <li><a routerLink=\"\" (click)=\"logout()\" class=\"logOut\">{{\"logOut\" | translate}}</a></li>\r\n      </ul>\r\n    </div>\r\n</nav>\r\n<router-outlet></router-outlet>"
 
 /***/ }),
 
@@ -67,11 +67,14 @@ var AppComponent = /** @class */ (function () {
         this._route = _route;
         this.dateService = dateService;
         // this language will be used as a fallback when a translation isn't found in the current language
-        translate.setDefaultLang('en-US');
+        translate.setDefaultLang(navigator.language);
         // the lang to use, if the lang isn't available, it will use the current loader to get them
-        translate.use('en-US');
+        translate.use(navigator.language);
         this.dateService.showNavMenu = false;
     }
+    AppComponent.prototype.logout = function () {
+        this.dateService.managerNavMenu = false;
+    };
     AppComponent = __decorate([
         core_1.Component({
             selector: 'app-root',
@@ -125,6 +128,9 @@ var report_time_component_1 = __webpack_require__("../../../../../src/app/compon
 var main_1 = __webpack_require__("../../../../ag-grid-angular/main.js");
 var date_service_1 = __webpack_require__("../../../../../src/app/shared/services/date.service.ts");
 var home_component_1 = __webpack_require__("../../../../../src/app/components/home/home.component.ts");
+var report_details_component_1 = __webpack_require__("../../../../../src/app/components/report-details/report-details.component.ts");
+var report_details_service_1 = __webpack_require__("../../../../../src/app/components/report-details/shared/report-details.service.ts");
+var employee_details_component_1 = __webpack_require__("../../../../../src/app/components/report-details/employee-details/employee-details.component.ts");
 var appRoutes = [
     { path: '', component: login_component_1.LoginComponent },
     { path: 'home', component: app_component_1.AppComponent },
@@ -132,6 +138,8 @@ var appRoutes = [
     { path: 'settings', component: settings_component_1.SettingsComponent },
     { path: 'reportTime/:date', component: report_time_component_1.ReportTimeComponent },
     { path: 'dashboard', component: home_component_1.HomeComponent },
+    { path: 'reportDetails', component: report_details_component_1.ReportDetailsComponent },
+    { path: 'reportDetails/:empId', component: employee_details_component_1.EmployeeDetailsComponent },
     { path: '**', component: calendar_component_1.CalendarComponent }
 ];
 function TranslateStaticLoadFactory(http) {
@@ -156,7 +164,9 @@ var AppModule = /** @class */ (function () {
                 employee_holiday_info_component_1.EmployeeHolidayInfoComponent,
                 login_component_1.LoginComponent,
                 report_time_component_1.ReportTimeComponent,
-                home_component_1.HomeComponent
+                home_component_1.HomeComponent,
+                report_details_component_1.ReportDetailsComponent,
+                employee_details_component_1.EmployeeDetailsComponent
             ],
             imports: [
                 platform_browser_1.BrowserModule,
@@ -171,9 +181,9 @@ var AppModule = /** @class */ (function () {
                     useFactory: TranslateStaticLoadFactory,
                     deps: [http_1.Http]
                 }),
-                router_1.RouterModule.forRoot(appRoutes)
+                router_1.RouterModule.forRoot(appRoutes),
             ],
-            providers: [client_info_service_1.ClientInfoService, timeOffService_1.timeOffService, date_service_1.DateService],
+            providers: [client_info_service_1.ClientInfoService, timeOffService_1.timeOffService, date_service_1.DateService, report_details_service_1.ReportDetailsService],
             bootstrap: [app_component_1.AppComponent]
         })
     ], AppModule);
@@ -287,7 +297,7 @@ var CalendarComponent = /** @class */ (function () {
         this._dateService.showNavMenu = true;
         this.calendarElement = jQuery(this.elementRef.nativeElement);
         this.calendarElement.fullCalendar({
-            events: '/assets/json/events.json',
+            events: '/eventInfo/eventInfo',
             dayClick: function (date) {
                 _this._router.navigateByUrl('/reportTime/' + date.format());
             }
@@ -418,13 +428,19 @@ var app_component_1 = __webpack_require__("../../../../../src/app/app.component.
 var date_service_1 = __webpack_require__("../../../../../src/app/shared/services/date.service.ts");
 var LoginComponent = /** @class */ (function () {
     function LoginComponent(loginService, router, _fb, _apComponent, _dateService) {
+        var _this = this;
         this.loginService = loginService;
         this.router = router;
         this._fb = _fb;
         this._apComponent = _apComponent;
         this._dateService = _dateService;
         this.loginLabel = ['User ID'];
+        this.data = [];
+        this.empData = [];
         this.idTypeList = ['Employee ID', 'Soc. Sec. # (US only)', 'Custom ID'];
+        this.loginService.getEmpData().subscribe(function (data) {
+            _this.empData = Object.values(data[0]);
+        });
         this.loginForm = this._fb.group({
             idType: ['', [forms_1.Validators.required]],
             password: ['', [forms_1.Validators.required]]
@@ -432,12 +448,23 @@ var LoginComponent = /** @class */ (function () {
         this._dateService.showNavMenu = false;
     }
     LoginComponent.prototype.loginUser = function () {
-        var _this = this;
-        this.getEmpInfo.map(function (ele) {
-            (_this.loginForm.controls['idType'].value.toLowerCase() === ele.emp &&
-                _this.loginForm.controls['password'].value.toLowerCase() === ele.pwd) ?
-                (_this.router.navigate(['/dashboard']), _this._dateService.showNavMenu = true) : _this.message = 'ID or password is invalid';
-        });
+        if ((this.loginForm.controls['idType'].value.toLowerCase() === this.empData[0].empId) && (this.loginForm.controls['password'].value.toLowerCase() === this.empData[0].pwd)) {
+            this.router.navigate(['/dashboard']);
+            this._dateService.showNavMenu = true;
+            return;
+        }
+        else {
+            this.message = 'ID or password is invalid';
+        }
+        if ((this.loginForm.controls['idType'].value.toLowerCase() === this.empData[1].empId) && (this.loginForm.controls['password'].value.toLowerCase() === this.empData[1].pwd)) {
+            this.router.navigate(['/reportDetails']);
+            this._dateService.showNavMenu = true;
+            this._dateService.managerNavMenu = true;
+            return;
+        }
+        else {
+            this.message = 'ID or password is invalid';
+        }
     };
     LoginComponent.prototype.onSelectList = function (list) {
         this.loginLabel = list;
@@ -503,7 +530,7 @@ var timeOffService = /** @class */ (function () {
         return this.http.get("../assets/json/common.json");
     };
     timeOffService.prototype.getEmpData = function () {
-        return this.http.get("http://localhost:3000/products");
+        return this.http.get("/empData/empData");
     };
     timeOffService = __decorate([
         core_1.Injectable(),
@@ -512,6 +539,200 @@ var timeOffService = /** @class */ (function () {
     return timeOffService;
 }());
 exports.timeOffService = timeOffService;
+
+
+/***/ }),
+
+/***/ "../../../../../src/app/components/report-details/employee-details/employee-details.component.css":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, ".reportTable {\r\n    margin-top: 30px;\r\n    border: 1px solid rgb(44, 99, 150);\r\n    text-align: center;\r\n}\r\n\r\n.reportTable thead th {\r\n    text-align: center;\r\n    font-size: 1.2em;\r\n    padding: 5px;\r\n    background: rgb(44, 99, 150);\r\n    color: white;\r\n}\r\n\r\n.wrapper h2 {\r\n    font-weight: bold;\r\n    text-align: center;\r\n}\r\n", ""]);
+
+// exports
+
+
+/*** EXPORTS FROM exports-loader ***/
+module.exports = module.exports.toString();
+
+/***/ }),
+
+/***/ "../../../../../src/app/components/report-details/employee-details/employee-details.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"container wrapper\">\r\n    <h2>Employee Name: {{empInfo.name}}</h2>\r\n    <table class=\"reportTable table table-responsive table-striped table-hover\">\r\n      <thead>\r\n        <th>Week</th>\r\n        <th>Billable hours</th>\r\n        <th>Non Billable Hours</th>\r\n        <th>Actions</th>\r\n      </thead>\r\n      <tbody>\r\n        <tr *ngFor=\"let weekInfo of empInfo.hoursDetails; let i=index\" [ngClass]=\"{'info': (i%2 == 0)}\">\r\n            <td>{{weekInfo.week}}</td>\r\n            <td>{{weekInfo.billableHours}}</td>\r\n            <td>{{weekInfo.nonBillableHours}}</td>\r\n            <td>\r\n              <button class=\"btn btn-primary\">Approve</button>\r\n              <button class=\"btn btn-warning\">Reject</button>\r\n            </td>\r\n        </tr>\r\n      </tbody>\r\n    </table>\r\n  </div>"
+
+/***/ }),
+
+/***/ "../../../../../src/app/components/report-details/employee-details/employee-details.component.ts":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = __webpack_require__("../../../core/esm5/core.js");
+var report_details_service_1 = __webpack_require__("../../../../../src/app/components/report-details/shared/report-details.service.ts");
+var EmployeeDetailsComponent = /** @class */ (function () {
+    function EmployeeDetailsComponent(_reportDetails) {
+        this._reportDetails = _reportDetails;
+    }
+    EmployeeDetailsComponent.prototype.ngOnInit = function () {
+        this.empInfo = this._reportDetails.empInfo;
+    };
+    EmployeeDetailsComponent = __decorate([
+        core_1.Component({
+            selector: 'app-employee-details',
+            template: __webpack_require__("../../../../../src/app/components/report-details/employee-details/employee-details.component.html"),
+            styles: [__webpack_require__("../../../../../src/app/components/report-details/employee-details/employee-details.component.css")]
+        }),
+        __metadata("design:paramtypes", [report_details_service_1.ReportDetailsService])
+    ], EmployeeDetailsComponent);
+    return EmployeeDetailsComponent;
+}());
+exports.EmployeeDetailsComponent = EmployeeDetailsComponent;
+
+
+/***/ }),
+
+/***/ "../../../../../src/app/components/report-details/report-details.component.css":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, ".reportTable {\r\n    margin-top: 30px;\r\n    border: 1px solid rgb(44, 99, 150);\r\n    text-align: center;\r\n}\r\n\r\n.reportTable thead th {\r\n    text-align: center;\r\n    font-size: 1.2em;\r\n    padding: 5px;\r\n    background: rgb(44, 99, 150);\r\n    color: white;\r\n}\r\n\r\n.wrapper h2 {\r\n    font-weight: bold;\r\n    text-align: center;\r\n}\r\n\r\n.reportTable tbody tr a {\r\n    text-decoration: none;\r\n    cursor: pointer;\r\n}", ""]);
+
+// exports
+
+
+/*** EXPORTS FROM exports-loader ***/
+module.exports = module.exports.toString();
+
+/***/ }),
+
+/***/ "../../../../../src/app/components/report-details/report-details.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"container wrapper\">\r\n  <h2>Employee Report</h2>\r\n  <table class=\"reportTable table table-responsive table-striped table-hover\">\r\n    <thead>\r\n      <th>Employee Name</th>\r\n      <th>Employee Role</th>\r\n      <th>Billable hours (current week)</th>\r\n    </thead>\r\n    <tbody>\r\n      <tr *ngFor=\"let emp of empData\">\r\n          <td (click)=\"empClicked(emp)\" *ngIf=\"emp.name\"><a>{{emp.name}}</a></td>\r\n          <td *ngIf=\"emp.name\">{{emp.role}}</td>\r\n          <td *ngIf=\"emp.name\">{{emp.hoursDetails[0].billableHours}}</td>\r\n      </tr>\r\n    </tbody>\r\n  </table>\r\n</div>\r\n"
+
+/***/ }),
+
+/***/ "../../../../../src/app/components/report-details/report-details.component.ts":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = __webpack_require__("../../../core/esm5/core.js");
+var report_details_service_1 = __webpack_require__("../../../../../src/app/components/report-details/shared/report-details.service.ts");
+var date_service_1 = __webpack_require__("../../../../../src/app/shared/services/date.service.ts");
+var employee_details_component_1 = __webpack_require__("../../../../../src/app/components/report-details/employee-details/employee-details.component.ts");
+var router_1 = __webpack_require__("../../../router/esm5/router.js");
+var cryptojs = __webpack_require__("../../../../crypto-js/index.js");
+var ReportDetailsComponent = /** @class */ (function () {
+    function ReportDetailsComponent(_reportDetails, dateService, _router) {
+        this._reportDetails = _reportDetails;
+        this.dateService = dateService;
+        this._router = _router;
+        this.reportDetails = [];
+    }
+    ReportDetailsComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.dateService.showNavMenu = true;
+        this._reportDetails.getReportDetails().subscribe(function (data) {
+            // this.reportDetails = data;
+            // console.log(this.reportDetails[0]);
+            _this.empData = Object.values(data[0]);
+            console.log(_this.empData);
+        });
+    };
+    ReportDetailsComponent.prototype.empClicked = function (emp) {
+        this._reportDetails.empInfo = emp;
+        this._router.navigateByUrl('/reportDetails/' + this.getcipherText(emp.empId));
+    };
+    ReportDetailsComponent.prototype.getcipherText = function (i) {
+        var rawStr = i.toString();
+        var wordArray = cryptojs.enc.Utf8.parse(rawStr);
+        var base64 = cryptojs.enc.Base64.stringify(wordArray);
+        console.log('encrypted:', base64);
+        return base64.toString();
+    };
+    __decorate([
+        core_1.ViewChild(employee_details_component_1.EmployeeDetailsComponent),
+        __metadata("design:type", employee_details_component_1.EmployeeDetailsComponent)
+    ], ReportDetailsComponent.prototype, "empDetails", void 0);
+    ReportDetailsComponent = __decorate([
+        core_1.Component({
+            selector: 'app-report-details',
+            template: __webpack_require__("../../../../../src/app/components/report-details/report-details.component.html"),
+            styles: [__webpack_require__("../../../../../src/app/components/report-details/report-details.component.css")]
+        }),
+        __metadata("design:paramtypes", [report_details_service_1.ReportDetailsService,
+            date_service_1.DateService,
+            router_1.Router])
+    ], ReportDetailsComponent);
+    return ReportDetailsComponent;
+}());
+exports.ReportDetailsComponent = ReportDetailsComponent;
+
+
+/***/ }),
+
+/***/ "../../../../../src/app/components/report-details/shared/report-details.service.ts":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = __webpack_require__("../../../core/esm5/core.js");
+var http_1 = __webpack_require__("../../../common/esm5/http.js");
+var ReportDetailsService = /** @class */ (function () {
+    function ReportDetailsService(_http) {
+        this._http = _http;
+    }
+    ReportDetailsService.prototype.getReportDetails = function () {
+        return this._http.get('/reportDetails/reportDetails');
+    };
+    ReportDetailsService = __decorate([
+        core_1.Injectable(),
+        __metadata("design:paramtypes", [http_1.HttpClient])
+    ], ReportDetailsService);
+    return ReportDetailsService;
+}());
+exports.ReportDetailsService = ReportDetailsService;
 
 
 /***/ }),
@@ -537,7 +758,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/components/report-time/report-time.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container\">\r\n  <div>Report Time <strong>{{startDate | date: 'MM/dd/yyyy'}} - {{endDate | date: 'MM/dd/yyyy'}}</strong></div>\r\n  <ag-grid-angular #agGrid style=\"width: 100%; height:171px\" class=\"ag-theme-material\" id=\"myGrid\" [rowData]=\"rowData\" [columnDefs]=\"columnDefs\"\r\n    [gridOptions]=\"gridOptions\" (gridReady)=\"onGridReady($event)\" [stopEditingWhenGridLosesFocus]=\"true\" enableColResize enableSorting\r\n    >\r\n  </ag-grid-angular>\r\n  <div class=\"result\">\r\n      <p>Total Billable Hours = 32</p>\r\n      <br/>\r\n      <button type=\"button\" class=\"btn btn-warning\">submit</button>\r\n    </div>\r\n</div>\r\n"
+module.exports = "<div class=\"container\">\r\n  <div>Report Time <strong>{{startDate | date: 'MM/dd/yyyy'}} - {{endDate | date: 'MM/dd/yyyy'}}</strong></div>\r\n  <ag-grid-angular #agGrid style=\"width: 100%; height:171px\" class=\"ag-theme-material\" id=\"myGrid\" [rowData]=\"rowData\" [columnDefs]=\"columnDefs\"\r\n    [gridOptions]=\"gridOptions\" (gridReady)=\"onGridReady($event)\" [stopEditingWhenGridLosesFocus]=\"true\" enableColResize enableSorting\r\n    >\r\n  </ag-grid-angular>\r\n  <div class=\"result\">\r\n      <p>Total Billable Hours = 32</p>\r\n      <br/>\r\n      <button type=\"button\" class=\"btn btn-warning\" (click)=\"submitData(rowData)\">submit</button>\r\n    </div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -580,8 +801,12 @@ var ReportTimeComponent = /** @class */ (function () {
         };
     }
     ReportTimeComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        // this._dateService.getReportTime().subscribe(data=>{
+        //   this.reportData = data[0];
+        //   console.log(this.reportData);
+        // })
         this._dateService.showNavMenu = true;
-        console.log(this._activatedRoute.snapshot.params);
         this.startDate = new Date(this._activatedRoute.snapshot.params.date);
         this.startDate.setDate(this.startDate.getDate() - this.startDate.getDay() + 1);
         this.endDate = new Date(this.startDate);
@@ -594,7 +819,7 @@ var ReportTimeComponent = /** @class */ (function () {
         this.columnDefs = [
             {
                 headerName: "TYPE",
-                field: "type",
+                field: "repType",
                 width: 100
             },
             {
@@ -640,28 +865,10 @@ var ReportTimeComponent = /** @class */ (function () {
                 width: 100
             },
         ];
-        this.rowData = [
-            {
-                type: "Billable",
-                monday: 10,
-                tuesday: 10,
-                wednesday: 10,
-                thursday: 0,
-                friday: 10,
-                saturday: 0,
-                sunday: 0
-            },
-            {
-                type: "Non Billable",
-                monday: 0,
-                tuesday: 0,
-                wednesday: 0,
-                thursday: 10,
-                friday: 0,
-                saturday: 0,
-                sunday: 0
-            },
-        ];
+        this._dateService.getReportTime().subscribe(function (data) {
+            _this.rowData = Object.values(data[0]);
+        });
+        ;
     };
     ReportTimeComponent.prototype.onGridReady = function (params) {
         params.api.sizeColumnsToFit();
@@ -671,6 +878,11 @@ var ReportTimeComponent = /** @class */ (function () {
     };
     ReportTimeComponent.prototype.selectAllRows = function () {
         this.gridOptions.api.selectAll();
+    };
+    ReportTimeComponent.prototype.submitData = function (timeData) {
+        this._dateService.postReportTime(timeData).subscribe(function (data) {
+            console.log(data);
+        });
     };
     ReportTimeComponent = __decorate([
         core_1.Component({
@@ -737,7 +949,9 @@ var ClientInformationComponent = /** @class */ (function () {
     ClientInformationComponent.prototype.ngOnInit = function () {
         var _this = this;
         this._clientInfoService.getClientInfo().subscribe(function (data) {
-            _this.clientInfo = data;
+            _this.clientInfo = data[0];
+            _this.clientInfo = Object.values(_this.clientInfo);
+            console.log(_this.clientInfo);
         }, function (error) {
             console.log(error);
         });
@@ -845,7 +1059,7 @@ var ClientInfoService = /** @class */ (function () {
         this._http = _http;
     }
     ClientInfoService.prototype.getClientInfo = function () {
-        return this._http.get('../../../../assets/json/clientInfo.json');
+        return this._http.get('/clientInfo/clientInfo');
     };
     ClientInfoService = __decorate([
         core_1.Injectable(),
@@ -1075,7 +1289,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/components/view-time/holidays/holidays.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<br/>\r\n<div class=\"holiday-card panel panel-primary\">\r\n  <div class=\"holiday-card-header panel-heading\">    \r\n      <ts-label [labelname]=\"header\" labelstyles=\"emp-info\"></ts-label>\r\n  </div>\r\n  <div class=\"holiday-card-body panel-body\">\r\n    <br/>\r\n      <ts-table [holidayList]=\"holidayList\"></ts-table>\r\n      <ng-content></ng-content>\r\n  </div>\r\n</div>"
+module.exports = "<br/>\r\n<div class=\"holiday-card panel panel-primary\">\r\n  <div class=\"holiday-card-header panel-heading\">    \r\n      <ts-label [labelname]=\"header\" labelstyles=\"emp-info\"></ts-label>\r\n  </div>\r\n  <div class=\"holiday-card-body panel-body\">\r\n    <br/>\r\n      <ts-table [holidayList]=\"holidayList\" *ngIf=\"!Date\"></ts-table>\r\n      <ng-content></ng-content>\r\n  </div>\r\n</div>"
 
 /***/ }),
 
@@ -1140,8 +1354,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__("../../../core/esm5/core.js");
 var http_1 = __webpack_require__("../../../common/esm5/http.js");
-var URL_Menu = '../../../../../assets/json/holiday-menu.json';
-var URL_Holiday_data = '../../../../../assets/json/holiday-list.json';
+var URL_Menu = '/holidayMenu/holidayMenu';
+var URL_Holiday_data = '/holidayList/holidayList';
 var HolidayListService = /** @class */ (function () {
     function HolidayListService(_http) {
         this._http = _http;
@@ -1186,7 +1400,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/components/view-time/view-time.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "\r\n<div class=\"container\">\r\n    <div class=\"row\">\r\n        <div class=\"col-md-3\" *ngFor=\"let obj of holidayInfo\">       \r\n            <ts-holidays [header]=\"obj.Name\" [holidayList]=\"holidayList\"></ts-holidays>\r\n        </div>\r\n    </div>\r\n    <div class=\"emp-holiday-info\">\r\n        <ts-employee-holiday-info></ts-employee-holiday-info>\r\n    </div>   \r\n</div>"
+module.exports = "\r\n<div class=\"container\">\r\n    <div class=\"row\">\r\n        <div class=\"col-md-3\" *ngFor=\"let obj of holidayInfo\">       \r\n            <ts-holidays [header]=\"obj.Name\" [holidayList]=\"holidayList\" *ngIf=\"obj.Name\"></ts-holidays>\r\n        </div>\r\n    </div>\r\n    <div class=\"emp-holiday-info\">\r\n        <ts-employee-holiday-info></ts-employee-holiday-info>\r\n    </div>   \r\n</div>"
 
 /***/ }),
 
@@ -1217,13 +1431,16 @@ var ViewTimeComponent = /** @class */ (function () {
         this._dateService = _dateService;
         this._holidayListService.getHolidayList()
             .subscribe(function (data) {
-            _this.holidayList = data,
-                function (error) { return console.log(error); };
+            _this.holidayList = Object.values(data[0]),
+                console.log(_this.holidayList);
+            (function (error) { return console.log(error); });
         });
         this._holidayListService.getHolidayInfo()
             .subscribe(function (data) {
-            _this.holidayInfo = data,
+            _this.holidayInfo = Object.values(data[0]),
+                // this.holidayInfo = this.holidayInfo.Array.slice(2, 3);
                 function (error) { return console.log(error); };
+            console.log(_this.holidayInfo);
         });
     }
     ViewTimeComponent.prototype.ngOnInit = function () {
@@ -1331,12 +1548,18 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__("../../../core/esm5/core.js");
 var http_1 = __webpack_require__("../../../common/esm5/http.js");
+__webpack_require__("../../../../rxjs/_esm5/add/operator/map.js");
+__webpack_require__("../../../../rxjs/_esm5/add/operator/catch.js");
+__webpack_require__("../../../../rxjs/_esm5/add/operator/toPromise.js");
 var DateService = /** @class */ (function () {
     function DateService(http) {
         this.http = http;
     }
-    DateService.prototype.getUserData = function () {
-        return this.http.get('http://localhost:3000/products');
+    DateService.prototype.getReportTime = function () {
+        return this.http.get('/reportTime/reportTime');
+    };
+    DateService.prototype.postReportTime = function (data) {
+        return this.http.post('/postReportTime/postReportTime', data);
     };
     DateService = __decorate([
         core_1.Injectable(),

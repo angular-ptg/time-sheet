@@ -15,10 +15,11 @@ export class ClientInformationComponent implements OnInit {
 
   ngOnInit() {
     this._clientInfoService.getClientInfo().subscribe(data => {
-      this.clientInfo = data;
+      this.clientInfo = data[0];
+      this.clientInfo = Object.values(this.clientInfo);
+      console.log(this.clientInfo);
     }, error => {
       console.log(error);
     })
   }
-
 }

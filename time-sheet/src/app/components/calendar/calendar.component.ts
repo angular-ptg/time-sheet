@@ -97,13 +97,15 @@ export class CalendarComponent implements AfterViewInit {
     clickedDate: any;
     constructor(private elementRef: ElementRef,
                 private _dateService: DateService,
-                private _router: Router) { }
+                private _router: Router) {
+                    
+                 }
 
     ngAfterViewInit() {
         this._dateService.showNavMenu = true;
         this.calendarElement = jQuery(this.elementRef.nativeElement);
         this.calendarElement.fullCalendar({
-            events: '/assets/json/events.json',
+            events: '/eventInfo/eventInfo',
                       dayClick: (date) => {         
                         this._router.navigateByUrl('/reportTime/' + date.format());
                     }

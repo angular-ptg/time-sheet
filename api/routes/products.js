@@ -7,13 +7,15 @@ const Event = require('../models/events');
 const EmployeeHolidayInfo = require('../models/employeeHolidayInfo');
 const HolidayList = require('../models/holidayList');
 const HolidayMenu = require('../models/holidayMenu');
+const ReportDetails = require('../models/reportDetails');
+const ReportTime = require('../models/reportTime');
+const PostReportTime = require('../models/postReportTime');
 const https = require('https');
-
+  
 //post Emp Login Data
 router.post('/empData', (req, res, next) => {
 	const emp = new EmpData(req.body);
-	emp
-		.save()
+	emp.save()
 		.then(empResult => {
 			res.status(201).json({
 				message: "Handling POST requests to /products",
@@ -48,7 +50,6 @@ router.post('/clientInfo', (req, res, next) => {
 		.save()
 		.then(clientData => {
 			res.status(201).json({
-				message: "Handling POST requests to /products",
 				createdData: clientData
 			});
 		})
@@ -167,7 +168,7 @@ router.post('/holidayList', (req, res, next) => {
 })
 
 router.get("/holidayMenu", (req, res, next) => {
-	holidayMenu.find()
+	HolidayMenu.find()
 		.exec()
 		.then(docs => {
 			console.log(docs);
@@ -179,19 +180,6 @@ router.get("/holidayMenu", (req, res, next) => {
 			});
 		});
 });
-
-router.post('/holidayMenu', (req, res, next) => {
-	const holidayMenu = new HolidayMenu(req.body);
-	holidayMenu.save((err, data) => {
-		if (err) {
-			res.send({
-				"status": "failed"
-			});
-		} else {
-			res.send(data);
-		}
-	})
-})
 
 router.post('/holidayMenu', (req, res, next) => {
 	const holiMenu = new HolidayMenu(req.body);
@@ -210,21 +198,95 @@ router.post('/holidayMenu', (req, res, next) => {
 		});
 })
 
-router.get("/:productId", (req, res, next) => {
-	const id = req.params.productId;
-	Product.findById(id)
+//Post Report Details Data
+router.post('/reportDetails', (req, res, next) => {
+	const reportData = new ReportDetails(req.body);
+	reportData.save()
+		.then(reportInfo => {
+			res.status(201).json({
+				message: "Handling POST requests to /products",
+				createdData: reportInfo
+			});
+		})
+		.catch(err => {
+			res.status(500).json({
+				error: err
+			});
+		});
+})
+
+//Get Report Details Data
+router.get("/reportDetails", (req, res, next) => {
+	ReportDetails.find()
 		.exec()
-		.then(doc => {
-			console.log("From database", doc);
-			if (doc) {
-				res.status(200).json(doc);
-			} else {
-				res
-					.status(404)
-					.json({
-						message: "No valid entry found for provided ID"
-					});
-			}
+		.then(docs => {
+			res.status(200).json(docs);
+		})
+		.catch(err => {
+			res.status(500).json({
+				error: err
+			});
+		});
+});
+
+//POST ReportTime Data
+router.post('/reportTime', (req, res, next) => {
+	const repData = new ReportTime(req.body);
+	console.log(req.body);
+	repData.save()
+		.then(item => {
+			res.status(201).json({
+				message: "Handling POST requests to /products",
+				createdData: item
+
+			});
+		})
+		.catch(err => {
+			res.status(500).json({
+				error: err
+			});
+		});
+})
+
+//Get Report Time Data
+router.get("/reportTime", (req, res, next) => {
+	ReportTime.find()
+		.exec()
+		.then(docs => {
+			res.status(200).json(docs);
+		})
+		.catch(err => {
+			res.status(500).json({
+				error: err
+			});
+		});
+});
+
+//POST ReportTime Data From Angular
+router.post('/postReportTime', (req, res, next) => {
+	const postData = new PostReportTime(req.body);
+	console.log(req.body);
+	postData.save()
+		.then(list => {
+			res.status(201).json({
+				message: "Handling POST requests to /products",
+				createdData: list
+
+			});
+		})
+		.catch(err => {
+			res.status(500).json({
+				error: err
+			});
+		});
+})
+
+//Get Post Report Time Data
+router.get("/postReportTime", (req, res, next) => {
+	PostReportTime.find()
+		.exec()
+		.then(docs => {
+			res.status(200).json(docs);
 		})
 		.catch(err => {
 			res.status(500).json({

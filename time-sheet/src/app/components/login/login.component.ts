@@ -16,15 +16,18 @@ export class LoginComponent implements OnInit {
 
   loginLabel: any = ['User ID'];
   message: string;
+  data: any = [];
   getEmpInfo: any;
   loginForm: FormGroup;
-  loginData: any;
-
+  empData: any=[];
   constructor(private loginService: timeOffService,
               private router: Router,
               private _fb: FormBuilder,
               private _apComponent: AppComponent, 
               private _dateService: DateService) {
+                this.loginService.getEmpData().subscribe(data =>{
+                  this.empData =Object.values(data[0]);
+                });
     this.loginForm = this._fb.group({
       idType: ['', [Validators.required]],
       password: ['', [Validators.required]]
@@ -35,11 +38,23 @@ export class LoginComponent implements OnInit {
   idTypeList: any = ['Employee ID', 'Soc. Sec. # (US only)', 'Custom ID'];
 
   loginUser() {
-  this.getEmpInfo.map(ele => {
-      (this.loginForm.controls['idType'].value.toLowerCase() === ele.emp &&
-      this.loginForm.controls['password'].value.toLowerCase() === ele.pwd) ?
-      (this.router.navigate(['/dashboard']), this._dateService.showNavMenu = true) : this.message = 'ID or password is invalid';
-   });
+  if((this.loginForm.controls['idType'].value.toLowerCase() === this.empData[0].empId) && (this.loginForm.controls['password'].value.toLowerCase() === this.empData[0].pwd)) {
+    this.router.navigate(['/dashboard']);
+     this._dateService.showNavMenu = true;
+     return;
+  }
+  else{
+    this.message = 'ID or password is invalid'
+  }
+  if((this.loginForm.controls['idType'].value.toLowerCase() === this.empData[1].empId) && (this.loginForm.controls['password'].value.toLowerCase() === this.empData[1].pwd)){
+    this.router.navigate(['/reportDetails']);
+    this._dateService.showNavMenu = true;
+    this._dateService.managerNavMenu = true;
+    return;
+  }else{
+    this.message = 'ID or password is invalid'
+  } 
+    
   }
 
   onSelectList(list) {

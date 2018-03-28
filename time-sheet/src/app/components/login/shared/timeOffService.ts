@@ -9,6 +9,6 @@ export class timeOffService{
         return this.http.get("../assets/json/common.json");
     }
     getEmpData(){
-        return this.http.get("http://localhost:3000/products");
+        return this.http.get("/empData/empData");
     }
 }

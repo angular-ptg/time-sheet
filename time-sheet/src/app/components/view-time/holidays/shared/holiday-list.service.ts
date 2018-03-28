@@ -3,8 +3,8 @@ import { Observable } from 'rxjs/Observable';
 import {HttpClient} from '@angular/common/http';
 
 
-const URL_Menu ='../../../../../assets/json/holiday-menu.json';
-const URL_Holiday_data ='../../../../../assets/json/holiday-list.json';
+const URL_Menu ='/holidayMenu/holidayMenu';
+const URL_Holiday_data ='/holidayList/holidayList';
 @Injectable()
 export class HolidayListService {
 
