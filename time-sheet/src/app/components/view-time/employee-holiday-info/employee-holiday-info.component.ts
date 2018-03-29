@@ -8,8 +8,8 @@ import {HttpClient} from '@angular/common/http';
 import { EmployeeHolidayInfoService } from './shared/employee-holiday-info.service';
 
 
-const URL_Menu_Info ='../../../../../assets/json/employee-holiday-info.json';
-const URL_Menu ='../../../../../assets/json/employee-holiday-info-menu.json';
+const URL_Menu ='/holidayMenu/holidayMenu';
+const URL_Holiday_data ='/holidayList/holidayList';
 @Component({
   selector: 'ts-employee-holiday-info',
   templateUrl: './employee-holiday-info.component.html',
@@ -25,7 +25,9 @@ export class EmployeeHolidayInfoComponent implements OnInit {
     this._employeeHolidayInfoService.getEmpHolidayInfo()
                                     .subscribe(data =>
                                       {
-                                        this.empHolidayInfo = data
+                                        this.empHolidayInfo = data;
+                                      //  this.empHolidayInfo=this.empHolidayInfo.shift();
+                                        console.log(this.empHolidayInfo);
                                       });
     } 
   ngOnInit() { 

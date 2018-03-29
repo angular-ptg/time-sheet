@@ -281,6 +281,7 @@ router.post('/postReportTime', (req, res, next) => {
 		});
 })
 
+
 //Get Post Report Time Data
 router.get("/postReportTime", (req, res, next) => {
 	PostReportTime.find()
@@ -294,4 +295,35 @@ router.get("/postReportTime", (req, res, next) => {
 			});
 		});
 });
+
+router.post('/employeeHolidayInfo', (req, res, next) => {
+	const emp = new EmployeeHolidayInfo(req.body);
+	emp.save()
+		.then(empholidayInfo => {
+			res.status(201).json({
+				message: "Handling POST requests to /products",
+				createdData: empholidayInfo
+			});
+		})
+		.catch(err => {
+			res.status(500).json({
+				error: err
+			});
+		});
+})
+
+//Get Emp Login Data
+router.get("/employeeHolidayInfo", (req, res, next) => {
+	EmployeeHolidayInfo.find()
+		.exec()
+		.then(docs => {
+			res.status(200).json(docs);
+		})
+		.catch(err => {
+			res.status(500).json({
+				error: err
+			});
+		});
+});
+
 module.exports = router;
