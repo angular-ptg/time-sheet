@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/forkJoin';
 import {HttpClient} from '@angular/common/http';
 
-const URL_Menu_Info ='../../../../../assets/json/employee-holiday-info.json';
+const URL_Menu_Info ='/employeeHolidayInfo/employeeHolidayInfo';
 const URL_Menu ='../../../../../assets/json/employee-holiday-info-menu.json';
 @Injectable()
 export class EmployeeHolidayInfoService {

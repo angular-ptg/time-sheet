@@ -1161,7 +1161,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/components/view-time/employee-holiday-info/employee-holiday-info.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div *ngFor=\"let empInfo of empHolidayInfo\">\r\n    <ts-label  labelname=\"accural-rate\" [labelstyles]=\"empInfoStyles\">:</ts-label>\r\n    <ts-label [labelname]=\"empInfo.AccuralRate\"></ts-label><br/>\r\n    <ts-label labelname=\"accured-hours\" [labelstyles]=\"empInfoStyles\">:</ts-label>\r\n    <ts-label [labelname]=\"empInfo.AccuredHours\"></ts-label><br/>\r\n    <ts-label labelname=\"total-vacation\" [labelstyles]=\"empInfoStyles\">:</ts-label>\r\n    <ts-label [labelname]=\"empInfo.TotalVacation\"></ts-label><br/>\r\n    <ts-label labelname=\"remaining-vaction\"[labelstyles]=\"empInfoStyles\">:</ts-label>\r\n    <ts-label [labelname]=\"empInfo.RemainingVaction\"></ts-label><br/>\r\n</div>"
+module.exports = "\r\n<div *ngFor=\"let empInfo of empHolidayInfo\">\r\n    <ts-label  labelname=\"accural-rate\" [labelstyles]=\"empInfoStyles\">:</ts-label>\r\n    <ts-label [labelname]=\"empInfo.AccuralRate\"></ts-label><br/>\r\n    <ts-label labelname=\"accured-hours\" [labelstyles]=\"empInfoStyles\">:</ts-label>\r\n    <ts-label [labelname]=\"empInfo.AccuredHours\"></ts-label><br/>\r\n    <ts-label labelname=\"total-vacation\" [labelstyles]=\"empInfoStyles\">:</ts-label>\r\n    <ts-label [labelname]=\"empInfo.TotalVacation\"></ts-label><br/>\r\n    <ts-label labelname=\"remaining-vaction\"[labelstyles]=\"empInfoStyles\">:</ts-label>\r\n    <ts-label [labelname]=\"empInfo.RemainingVaction\"></ts-label><br/>\r\n    \r\n</div>"
 
 /***/ }),
 
@@ -1184,8 +1184,8 @@ var core_1 = __webpack_require__("../../../core/esm5/core.js");
 __webpack_require__("../../../../rxjs/_esm5/add/observable/forkJoin.js");
 var http_1 = __webpack_require__("../../../common/esm5/http.js");
 var employee_holiday_info_service_1 = __webpack_require__("../../../../../src/app/components/view-time/employee-holiday-info/shared/employee-holiday-info.service.ts");
-var URL_Menu_Info = '../../../../../assets/json/employee-holiday-info.json';
-var URL_Menu = '../../../../../assets/json/employee-holiday-info-menu.json';
+var URL_Menu = '/holidayMenu/holidayMenu';
+var URL_Holiday_data = '/holidayList/holidayList';
 var EmployeeHolidayInfoComponent = /** @class */ (function () {
     function EmployeeHolidayInfoComponent(_employeeHolidayInfoService, _http) {
         var _this = this;
@@ -1195,6 +1195,8 @@ var EmployeeHolidayInfoComponent = /** @class */ (function () {
         this._employeeHolidayInfoService.getEmpHolidayInfo()
             .subscribe(function (data) {
             _this.empHolidayInfo = data;
+            //  this.empHolidayInfo=this.empHolidayInfo.shift();
+            console.log(_this.empHolidayInfo);
         });
     }
     EmployeeHolidayInfoComponent.prototype.ngOnInit = function () {
@@ -1233,7 +1235,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__("../../../core/esm5/core.js");
 __webpack_require__("../../../../rxjs/_esm5/add/observable/forkJoin.js");
 var http_1 = __webpack_require__("../../../common/esm5/http.js");
-var URL_Menu_Info = '../../../../../assets/json/employee-holiday-info.json';
+var URL_Menu_Info = '/employeeHolidayInfo/employeeHolidayInfo';
 var URL_Menu = '../../../../../assets/json/employee-holiday-info-menu.json';
 var EmployeeHolidayInfoService = /** @class */ (function () {
     function EmployeeHolidayInfoService(_http) {
